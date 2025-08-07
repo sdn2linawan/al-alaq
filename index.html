@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Belajar Surah Al-‘Alaq - Kelas 3</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Dekorasi latar bintang lembut */
+    .sky {
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(255,255,255,0.12), transparent 60%),
+                  radial-gradient(900px 500px at 10% 10%, rgba(255,255,255,0.1), transparent 60%),
+                  linear-gradient(135deg,#0ea5ea 0%, #057a55 100%);
+      position: relative;
+      overflow-x: hidden;
+    }
+    .sparkles::before, .sparkles::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(#ffffff88 1px, transparent 1px),
+        radial-gradient(#ffffff66 1px, transparent 1px),
+        radial-gradient(#ffffff55 1px, transparent 1px);
+      background-size: 90px 90px, 140px 140px, 200px 200px;
+      background-position: 0 0, 30px 60px, 60px 30px;
+      pointer-events: none;
+      opacity: .35;
+    }
+    .sparkles::after {
+      animation: twinkle 8s linear infinite;
+      opacity: .45;
+    }
+    @keyframes twinkle {
+      0%,100% {opacity:.2}
+      50% {opacity:.5}
+    }
+    /* Arabik halus */
+    .arabic {
+      font-feature-settings: "calt" 1, "liga" 1;
+      line-height: 1.9;
+    }
+    /* Drag indicator */
+    .drag-ghost {
+      opacity: .6;
+      transform: scale(1.02);
+    }
+    /* Print friendly */
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; }
+      .print-card { box-shadow: none !important; }
+    }
+  </style>
+</head>
+<body class="sky min-h-screen text-slate-900 selection:bg-emerald-300/60 selection:text-emerald-950">
+  <!-- Header -->
+  <header class="sparkles">
+    <div class="max-w-6xl mx-auto px-6 pt-10 pb-6">
+      <div class="flex items-start md:items-center justify-between gap-6">
+        <div>
+          <h1 class="text-3xl md:text-5xl font-extrabold text-white drop-shadow-sm">
+            Belajar Surah Al-‘Alaq
+          </h1>
+          <p class="mt-2 text-emerald-50/90 text-base md:text-lg">
+            Kelas 3 | “Iqra’ — Mari Membaca!” (Fokus ayat 1–5)
+          </p>
+        </div>
+        <div class="no-print">
+          <button id="printBtn" class="inline-flex items-center gap-2 bg-white/90 hover:bg-white text-emerald-800 font-semibold px-4 py-2 rounded-xl shadow transition">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9V4h12v5M6 18H5a3 3 0 0 1-3-3v-2a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v2a3 3 0 0 1-3 3h-1M6 18v2h12v-2M6 18h12" stroke="#065f46" stroke-width="2" stroke-linecap="round"/></svg>
+            Cetak Lembar
+          </button>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="mt-6 bg-white/10 backdrop-blur rounded-2xl p-4 md:p-5 ring-1 ring-white/20">
+        <div class="flex items-center justify-between gap-3 mb-3">
+          <span class="text-white/90 font-medium">Kemajuan Latihan</span>
+          <span id="progressText" class="text-white/90 text-sm">0% selesai</span>
+        </div>
+        <div class="w-full bg-white/20 rounded-full h-3 overflow-hidden">
+          <div id="progressBar" class="h-3 bg-emerald-300 rounded-full transition-all" style="width: 0%"></div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 mt-3 text-emerald-50/90 text-sm">
+          <span id="badge-mcq" class="inline-flex items-center gap-1 bg-white/15 rounded-full px-3 py-1">
+            ❓ Pilihan Ganda
+          </span>
+          <span id="badge-order" class="inline-flex items-center gap-1 bg-white/15 rounded-full px-3 py-1">
+            🔀 Susun Ayat
+          </span>
+          <span id="badge-match" class="inline-flex items-center gap-1 bg-white/15 rounded-full px-3 py-1">
+            🔗 Cocokkan Arti
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Tabs -->
+  <nav class="no-print">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <button data-tab="intro" class="tab-btn active bg-white text-emerald-900 font-semibold px-4 py-3 rounded-2xl shadow hover:shadow-md transition text-left">
+          📘 Pengenalan
+        </button>
+        <button data-tab="ayat" class="tab-btn bg-white/80 hover:bg-white text-emerald-900 font-semibold px-4 py-3 rounded-2xl shadow hover:shadow-md transition text-left">
+          📖 Ayat & Arti
+        </button>
+        <button data-tab="vocab" class="tab-btn bg-white/80 hover:bg-white text-emerald-900 font-semibold px-4 py-3 rounded-2xl shadow hover:shadow-md transition text-left">
+          🧠 Kosa Kata
+        </button>
+        <button data-tab="quiz" class="tab-btn bg-white/80 hover:bg-white text-emerald-900 font-semibold px-4 py-3 rounded-2xl shadow hover:shadow-md transition text-left">
+          🏁 Latihan
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <main class="max-w-6xl mx-auto px-6 py-8 md:py-10 space-y-8">
+    <!-- Info: Audio not supported -->
+    <div class="no-print bg-yellow-50 ring-1 ring-yellow-200 text-yellow-900 rounded-2xl p-4">
+      ℹ️ Audio bacaan belum tersedia di Canva Code. Jika butuh audio, saya bisa menambahkan tombol tempat Anda menautkan file audio sendiri.
+    </div>
+
+    <!-- Intro -->
+    <section id="tab-intro" class="tab-section">
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="print-card bg-white rounded-3xl p-6 md:p-8 shadow-lg ring-1 ring-emerald-100">
+          <h2 class="text-2xl md:text-3xl font-bold text-emerald-800">Tentang Surah Al-‘Alaq</h2>
+          <p class="mt-3 text-emerald-900/90 leading-relaxed">
+            Surah Al-‘Alaq adalah surah ke-96 dan termasuk surah Makkiyah. Bagian yang sering dipelajari untuk pemula adalah ayat 1–5, yang mengajarkan perintah membaca, asal penciptaan manusia, dan pentingnya ilmu.
+          </p>
+          <ul class="mt-4 space-y-2 text-emerald-900/90">
+            <li>• Fokus: Ayat 1–5</li>
+            <li>• Pesan utama: “Bacalah” dan cintai ilmu</li>
+            <li>• Tujuan: membaca, memahami arti, dan mengingat urutan</li>
+          </ul>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button data-tab-jump="ayat" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-xl shadow">
+              Mulai Membaca
+            </button>
+            <button data-tab-jump="quiz" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 px-5 py-2.5 rounded-xl shadow">
+              Langsung Latihan
+            </button>
+          </div>
+        </div>
+
+        <div class="print-card bg-white rounded-3xl p-6 md:p-8 shadow-lg ring-1 ring-emerald-100">
+          <h3 class="text-xl md:text-2xl font-bold text-emerald-800">Tujuan Pembelajaran</h3>
+          <ol class="mt-3 space-y-2 text-emerald-900/90">
+            <li>1. Membaca ayat 1–5 dengan rapi.</li>
+            <li>2. Memahami arti sederhana tiap ayat.</li>
+            <li>3. Mengenal kosa kata kunci.</li>
+            <li>4. Menyusun urutan ayat dengan benar.</li>
+          </ol>
+          <div class="mt-6 p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+            <p class="text-emerald-900/90">
+              Tips: baca pelan, perhatikan huruf hijaiyah, dan ulangi 2–3 kali.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ayat & Arti -->
+    <section id="tab-ayat" class="tab-section hidden">
+      <div class="print-card bg-white rounded-3xl p-6 md:p-8 shadow-lg ring-1 ring-emerald-100">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 class="text-2xl md:text-3xl font-bold text-emerald-800">Ayat 1–5</h2>
+          <div class="no-print flex items-center gap-2">
+            <span class="text-sm text-emerald-900/80">Ukuran Arab</span>
+            <div class="flex items-center gap-2 bg-emerald-50 p-1.5 rounded-xl border border-emerald-100">
+              <button id="fontMinus" class="w-9 h-9 grid place-items-center rounded-lg bg-white hover:bg-emerald-100 text-emerald-900 font-bold">−</button>
+              <button id="fontPlus" class="w-9 h-9 grid place-items-center rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold">+</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 space-y-5">
+          <!-- Ayat cards -->
+          <div class="rounded-2xl border border-emerald-100 p-5">
+            <div class="text-right arabic text-2xl md:text-3xl" dir="rtl">
+              اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ
+            </div>
+            <p class="mt-2 text-emerald-900/90 italic">Iqra’ bismi rabbika alladzi khalaq</p>
+            <p class="mt-1 text-emerald-900/95">Bacalah dengan nama Tuhanmu yang menciptakan.</p>
+          </div>
+
+          <div class="rounded-2xl border border-emerald-100 p-5">
+            <div class="text-right arabic text-2xl md:text-3xl" dir="rtl">
+              خَلَقَ الْإِنسَانَ مِنْ عَلَقٍ
+            </div>
+            <p class="mt-2 text-emerald-900/90 italic">Khalaqal-insāna min ‘alaq</p>
+            <p class="mt-1 text-emerald-900/95">Dia menciptakan manusia dari segumpal darah.</p>
+          </div>
+
+          <div class="rounded-2xl border border-emerald-100 p-5">
+            <div class="text-right arabic text-2xl md:text-3xl" dir="rtl">
+              اقْرَأْ وَرَبُّكَ الْأَكْرَمُ
+            </div>
+            <p class="mt-2 text-emerald-900/90 italic">Iqra’ wa rabbukal-akram</p>
+            <p class="mt-1 text-emerald-900/95">Bacalah, dan Tuhanmulah Yang Mahamulia.</p>
+          </div>
+
+          <div class="rounded-2xl border border-emerald-100 p-5">
+            <div class="text-right arabic text-2xl md:text-3xl" dir="rtl">
+              الَّذِي عَلَّمَ بِالْقَلَمِ
+            </div>
+            <p class="mt-2 text-emerald-900/90 italic">Alladzī ‘allama bil-qalam</p>
+            <p class="mt-1 text-emerald-900/95">Yang mengajar (manusia) dengan pena.</p>
+          </div>
+
+          <div class="rounded-2xl border border-emerald-100 p-5">
+            <div class="text-right arabic text-2xl md:text-3xl" dir="rtl">
+              عَلَّمَ الْإِنسَانَ مَا لَمْ يَعْلَمْ
+            </div>
+            <p class="mt-2 text-emerald-900/90 italic">‘Allamal-insāna mā lam ya‘lam</p>
+            <p class="mt-1 text-emerald-900/95">Dia mengajarkan manusia apa yang tidak diketahuinya.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kosa Kata -->
+    <section id="tab-vocab" class="tab-section hidden">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Card -->
+        <div class="print-card group bg-white rounded-3xl p-6 shadow-lg ring-1 ring-emerald-100 transition hover:shadow-xl">
+          <div class="text-right arabic text-3xl" dir="rtl">اقْرَأْ</div>
+          <div class="mt-2 text-emerald-900/80 italic">Iqra’</div>
+          <div class="mt-2 text-emerald-900 font-semibold">Bacalah</div>
+        </div>
+        <div class="print-card group bg-white rounded-3xl p-6 shadow-lg ring-1 ring-emerald-100 transition hover:shadow-xl">
+          <div class="text-right arabic text-3xl" dir="rtl">رَبّ</div>
+          <div class="mt-2 text-emerald-900/80 italic">Rabb</div>
+          <div class="mt-2 text-emerald-900 font-semibold">Tuhan</div>
+        </div>
+        <div class="print-card group bg-white rounded-3xl p-6 shadow-lg ring-1 ring-emerald-100 transition hover:shadow-xl">
+          <div class="text-right arabic text-3xl" dir="rtl">خَلَقَ</div>
+          <div class="mt-2 text-emerald-900/80 italic">Khalaqa</div>
+          <div class="mt-2 text-emerald-900 font-semibold">Menciptakan</div>
+        </div>
+        <div class="print-card group bg-white rounded-3xl p-6 shadow-lg ring-1 ring-emerald-100 transition hover:shadow-xl">
+          <div class="text-right arabic text-3xl" dir="rtl">عَلَق</div>
+          <div class="mt-2 text-emerald-900/80 italic">‘Alaq</div>
+          <div class="mt-2 text-emerald-900 font-semibold">Segumpal darah</div>
+        </div>
+        <div class="print-card group bg-white rounded-3xl p-6 shadow-lg ring-1 ring-emerald-100 transition hover:shadow-xl">
+          <div class="text-right arabic text-3xl" dir="rtl">قَلَم</div>
+          <div class="mt-2 text-emerald-900/80 italic">Qalam</div>
+          <div class="mt-2 text-emerald-900 font-semibold">Pena</div>
+        </div>
+        <div class="print-card group bg-white rounded-3xl p-6 shadow-lg ring-1 ring-emerald-100 transition hover:shadow-xl">
+          <div class="text-right arabic text-3xl" dir="rtl">عَلَّمَ</div>
+          <div class="mt-2 text-emerald-900/80 italic">‘Allama</div>
+          <div class="mt-2 text-emerald-900 font-semibold">Mengajarkan</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latihan -->
+    <section id="tab-quiz" class="tab-section hidden">
+      <div class="grid lg:grid-cols-2 gap-6">
+        <!-- MCQ -->
+        <div class="print-card bg-white rounded-3xl p-6 md:p-7 shadow-lg ring-1 ring-emerald-100">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xl md:text-2xl font-bold text-emerald-800">❓ Pilihan Ganda</h3>
+            <span id="mcqStatus" class="text-sm text-emerald-700"></span>
+          </div>
+          <div class="mt-4 space-y-5" id="mcqWrap">
+            <div>
+              <p class="font-medium text-emerald-900">1) Apa arti “Iqra’”?</p>
+              <div class="mt-2 space-y-2">
+                <label class="flex items-center gap-3"><input type="radio" name="q1" value="a" class="accent-emerald-600"> Tulis</label>
+                <label class="flex items-center gap-3"><input type="radio" name="q1" value="b" class="accent-emerald-600"> Bacalah</label>
+                <label class="flex items-center gap-3"><input type="radio" name="q1" value="c" class="accent-emerald-600"> Dengarkan</label>
+              </div>
+            </div>
+            <div>
+              <p class="font-medium text-emerald-900">2) Pada ayat 4, Allah mengajar manusia dengan apa?</p>
+              <div class="mt-2 space-y-2">
+                <label class="flex items-center gap-3"><input type="radio" name="q2" value="a" class="accent-emerald-600"> Pedang</label>
+                <label class="flex items-center gap-3"><input type="radio" name="q2" value="b" class="accent-emerald-600"> Pena</label>
+                <label class="flex items-center gap-3"><input type="radio" name="q2" value="c" class="accent-emerald-600"> Batu</label>
+              </div>
+            </div>
+            <div>
+              <p class="font-medium text-emerald-900">3) Surah Al-‘Alaq termasuk surah...</p>
+              <div class="mt-2 space-y-2">
+                <label class="flex items-center gap-3"><input type="radio" name="q3" value="a" class="accent-emerald-600"> Makkiyah</label>
+                <label class="flex items-center gap-3"><input type="radio" name="q3" value="b" class="accent-emerald-600"> Madaniyah</label>
+              </div>
+            </div>
+          </div>
+          <div class="mt-5 flex items-center gap-3">
+            <button id="checkMcq" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl shadow">Cek Jawaban</button>
+            <button id="resetMcq" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 px-4 py-2 rounded-xl">Reset</button>
+            <span id="mcqResult" class="ml-auto font-semibold text-emerald-800"></span>
+          </div>
+        </div>
+
+        <!-- Order -->
+        <div class="print-card bg-white rounded-3xl p-6 md:p-7 shadow-lg ring-1 ring-emerald-100">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xl md:text-2xl font-bold text-emerald-800">🔀 Susun Ayat 1–5</h3>
+            <span id="orderStatus" class="text-sm text-emerald-700"></span>
+          </div>
+          <p class="mt-2 text-emerald-900/90">Seret setiap baris agar urut dari Ayat 1 hingga Ayat 5.</p>
+          <ul id="orderList" class="mt-4 space-y-3">
+            <!-- Items (scrambled) -->
+            <li draggable="true" data-order="2" class="order-item bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-center justify-between cursor-move">
+              <span class="font-medium text-emerald-900">Ayat 2 — "Khalaqal-insāna min ‘alaq"</span>
+              <span class="text-emerald-700/80">⋮⋮</span>
+            </li>
+            <li draggable="true" data-order="5" class="order-item bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-center justify-between cursor-move">
+              <span class="font-medium text-emerald-900">Ayat 5 — "‘Allamal-insāna mā lam ya‘lam"</span>
+              <span class="text-emerald-700/80">⋮⋮</span>
+            </li>
+            <li draggable="true" data-order="3" class="order-item bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-center justify-between cursor-move">
+              <span class="font-medium text-emerald-900">Ayat 3 — "Iqra’ wa rabbukal-akram"</span>
+              <span class="text-emerald-700/80">⋮⋮</span>
+            </li>
+            <li draggable="true" data-order="1" class="order-item bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-center justify-between cursor-move">
+              <span class="font-medium text-emerald-900">Ayat 1 — "Iqra’ bismi rabbika alladzi khalaq"</span>
+              <span class="text-emerald-700/80">⋮⋮</span>
+            </li>
+            <li draggable="true" data-order="4" class="order-item bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-center justify-between cursor-move">
+              <span class="font-medium text-emerald-900">Ayat 4 — "Alladzī ‘allama bil-qalam"</span>
+              <span class="text-emerald-700/80">⋮⋮</span>
+            </li>
+          </ul>
+          <div class="mt-5 flex items-center gap-3">
+            <button id="checkOrder" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl shadow">Cek Urutan</button>
+            <button id="resetOrder" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 px-4 py-2 rounded-xl">Acak Lagi</button>
+            <span id="orderResult" class="ml-auto font-semibold text-emerald-800"></span>
+          </div>
+        </div>
+
+        <!-- Matching -->
+        <div class="print-card bg-white rounded-3xl p-6 md:p-7 shadow-lg ring-1 ring-emerald-100 lg:col-span-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xl md:text-2xl font-bold text-emerald-800">🔗 Cocokkan Arti</h3>
+            <span id="matchStatus" class="text-sm text-emerald-700"></span>
+          </div>
+          <div class="mt-4 grid md:grid-cols-3 gap-4">
+            <div class="p-4 rounded-2xl border border-emerald-100 bg-emerald-50">
+              <div class="text-right arabic text-2xl" dir="rtl">اقْرَأْ</div>
+              <p class="mt-2 text-emerald-900/80 italic">Iqra’</p>
+              <select class="mt-3 w-full bg-white border border-emerald-200 rounded-xl px-3 py-2">
+                <option value="">Pilih arti...</option>
+                <option value="tulis">Tulis</option>
+                <option value="bacalah">Bacalah</option>
+                <option value="pena">Pena</option>
+              </select>
+            </div>
+            <div class="p-4 rounded-2xl border border-emerald-100 bg-emerald-50">
+              <div class="text-right arabic text-2xl" dir="rtl">قَلَم</div>
+              <p class="mt-2 text-emerald-900/80 italic">Qalam</p>
+              <select class="mt-3 w-full bg-white border border-emerald-200 rounded-xl px-3 py-2">
+                <option value="">Pilih arti...</option>
+                <option value="batu">Batu</option>
+                <option value="pena">Pena</option>
+                <option value="bacalah">Bacalah</option>
+              </select>
+            </div>
+            <div class="p-4 rounded-2xl border border-emerald-100 bg-emerald-50">
+              <div class="text-right arabic text-2xl" dir="rtl">عَلَق</div>
+              <p class="mt-2 text-emerald-900/80 italic">‘Alaq</p>
+              <select class="mt-3 w-full bg-white border border-emerald-200 rounded-xl px-3 py-2">
+                <option value="">Pilih arti...</option>
+                <option value="segumpal">Segumpal darah</option>
+                <option value="menulis">Menulis</option>
+                <option value="membaca">Membaca</option>
+              </select>
+            </div>
+          </div>
+          <div class="mt-5 flex items-center gap-3">
+            <button id="checkMatch" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl shadow">Cek Pasangan</button>
+            <button id="resetMatch" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-900 px-4 py-2 rounded-xl">Reset</button>
+            <span id="matchResult" class="ml-auto font-semibold text-emerald-800"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Catatan Cetak -->
+    <section class="print-card bg-white rounded-3xl p-6 md:p-7 shadow-lg ring-1 ring-emerald-100">
+      <h3 class="text-xl md:text-2xl font-bold text-emerald-800">Lembar Kerja (Untuk Cetak)</h3>
+      <ol class="mt-3 space-y-2 text-emerald-900/95">
+        <li>1) Tuliskan arti “Iqra’”.</li>
+        <li>2) Lingkari jawaban benar: Allah mengajar manusia dengan (pedang/pena/batu).</li>
+        <li>3) Urutkan ayat 1–5 (tuliskan angka 1–5 di sampingnya).</li>
+      </ol>
+      <p class="mt-3 text-sm text-emerald-900/70">Gunakan tombol “Cetak Lembar” di atas.</p>
+    </section>
+  </main>
+
+  <footer class="pb-10 px-6">
+    <div class="max-w-6xl mx-auto text-emerald-50/90 text-sm">
+      Dibuat oleh Canva Code • Untuk penggunaan belajar di kelas dan rumah
+    </div>
+  </footer>
+
+  <script>
+    // Tabs
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const sections = document.querySelectorAll('.tab-section');
+    function switchTab(name) {
+      sections.forEach(s => s.classList.add('hidden'));
+      document.getElementById('tab-' + name).classList.remove('hidden');
+      tabButtons.forEach(b => b.classList.remove('active','bg-white','text-emerald-900'));
+      tabButtons.forEach(b => {
+        if (b.dataset.tab === name) b.classList.add('active','bg-white','text-emerald-900');
+        else {
+          b.classList.remove('bg-white');
+          b.classList.add('bg-white/80');
+        }
+      });
+    }
+    tabButtons.forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
+    document.querySelectorAll('[data-tab-jump]').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
+
+    // Print
+    document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+    // Arabic font size controls
+    let currentSize = 32; // base for md
+    function applyArabicSize() {
+      document.querySelectorAll('.arabic').forEach(el => {
+        el.style.fontSize = currentSize + 'px';
+      });
+    }
+    document.getElementById('fontPlus').addEventListener('click', () => {
+      currentSize = Math.min(currentSize + 2, 56);
+      applyArabicSize();
+    });
+    document.getElementById('fontMinus').addEventListener('click', () => {
+      currentSize = Math.max(currentSize - 2, 20);
+      applyArabicSize();
+    });
+    applyArabicSize();
+
+    // MCQ
+    const correct = { q1: 'b', q2: 'b', q3: 'a' };
+    const mcqResult = document.getElementById('mcqResult');
+    const mcqStatus = document.getElementById('mcqStatus');
+    function getValue(name) {
+      const checked = document.querySelector('input[name="' + name + '"]:checked');
+      return checked ? checked.value : '';
+    }
+    function resetMCQ() {
+      document.querySelectorAll('#mcqWrap input[type="radio"]').forEach(i => i.checked = false);
+      mcqResult.textContent = '';
+      mcqStatus.textContent = '';
+    }
+    document.getElementById('checkMcq').addEventListener('click', () => {
+      let score = 0;
+      score += getValue('q1') === correct.q1 ? 1 : 0;
+      score += getValue('q2') === correct.q2 ? 1 : 0;
+      score += getValue('q3') === correct.q3 ? 1 : 0;
+      mcqResult.textContent = score + "/3 benar";
+      if (score === 3) {
+        mcqStatus.textContent = "✅ Selesai";
+        flags.mcq = true;
+      } else {
+        mcqStatus.textContent = "✨ Coba lagi";
+        flags.mcq = false;
+      }
+      updateProgress();
+    });
+    document.getElementById('resetMcq').addEventListener('click', () => {
+      resetMCQ();
+      flags.mcq = false;
+      updateProgress();
+    });
+
+    // Order (drag and drop)
+    const orderList = document.getElementById('orderList');
+    let dragEl = null;
+    orderList.addEventListener('dragstart', (e) => {
+      dragEl = e.target.closest('.order-item');
+      dragEl.classList.add('drag-ghost');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    orderList.addEventListener('dragend', () => {
+      if (dragEl) dragEl.classList.remove('drag-ghost');
+      dragEl = null;
+    });
+    orderList.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      const afterEl = getDragAfterElement(orderList, e.clientY);
+      const draggable = dragEl;
+      if (!draggable) return;
+      if (afterEl == null) {
+        orderList.appendChild(draggable);
+      } else {
+        orderList.insertBefore(draggable, afterEl);
+      }
+    });
+    function getDragAfterElement(container, y) {
+      const els = [...container.querySelectorAll('.order-item:not(.drag-ghost)')];
+      return els.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset, element: child };
+        } else {
+          return closest;
+        }
+      }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+    const orderResult = document.getElementById('orderResult');
+    const orderStatus = document.getElementById('orderStatus');
+    function checkOrder() {
+      const items = [...orderList.children];
+      const ok = items.every((li, idx) => Number(li.dataset.order) === idx + 1);
+      if (ok) {
+        orderResult.textContent = "Urutan benar!";
+        orderStatus.textContent = "✅ Selesai";
+        flags.order = true;
+      } else {
+        orderResult.textContent = "Masih salah, coba geser lagi.";
+        orderStatus.textContent = "✨ Coba lagi";
+        flags.order = false;
+      }
+      updateProgress();
+    }
+    document.getElementById('checkOrder').addEventListener('click', checkOrder);
+    document.getElementById('resetOrder').addEventListener('click', () => {
+      // Shuffle
+      const items = [...orderList.children];
+      for (let i = items.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        orderList.appendChild(items[j]);
+        items.splice(j, 1);
+      }
+      orderResult.textContent = '';
+      orderStatus.textContent = '';
+      flags.order = false;
+      updateProgress();
+    });
+
+    // Matching
+    const matchResult = document.getElementById('matchResult');
+    const matchStatus = document.getElementById('matchStatus');
+    function checkMatch() {
+      const selects = document.querySelectorAll('#tab-quiz select');
+      const answers = ['bacalah','pena','segumpal'];
+      let score = 0;
+      selects.forEach((s, i) => { if (s.value === answers[i]) score++; });
+      matchResult.textContent = score + "/3 benar";
+      if (score === 3) {
+        matchStatus.textContent = "✅ Selesai";
+        flags.match = true;
+      } else {
+        matchStatus.textContent = "✨ Coba lagi";
+        flags.match = false;
+      }
+      updateProgress();
+    }
+    function resetMatch() {
+      document.querySelectorAll('#tab-quiz select').forEach(s => s.value = '');
+      matchResult.textContent = '';
+      matchStatus.textContent = '';
+    }
+    document.getElementById('checkMatch').addEventListener('click', checkMatch);
+    document.getElementById('resetMatch').addEventListener('click', () => {
+      resetMatch();
+      flags.match = false;
+      updateProgress();
+    });
+
+    // Progress
+    const flags = { mcq: false, order: false, match: false };
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const badgeMcq = document.getElementById('badge-mcq');
+    const badgeOrder = document.getElementById('badge-order');
+    const badgeMatch = document.getElementById('badge-match');
+    function updateProgress() {
+      const done = Object.values(flags).filter(Boolean).length;
+      const pct = Math.round((done / 3) * 100);
+      progressBar.style.width = pct + '%';
+      progressText.textContent = pct + '% selesai';
+      // badges
+      badgeMcq.textContent = (flags.mcq ? '✅' : '❓') + ' ' + 'Pilihan Ganda';
+      badgeOrder.textContent = (flags.order ? '✅' : '🔀') + ' ' + 'Susun Ayat';
+      badgeMatch.textContent = (flags.match ? '✅' : '🔗') + ' ' + 'Cocokkan Arti';
+    }
+    updateProgress();
+
+    // Default to Intro tab on load
+    switchTab('intro');
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96b2f9c017a3a3da',t:'MTc1NDUyOTg3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
